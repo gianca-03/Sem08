@@ -1,5 +1,6 @@
 package com.example.proyectomovil
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.GridLayoutManager
@@ -38,6 +39,12 @@ class MainActivity : AppCompatActivity(), ISneakerLoadListener,ICartLoadListener
         EventBus.getDefault().unregister(this)
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+     fun onUpdateCartEvent(event:UpdateCartEvent)
+    {
+        countCartFromFirebase()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -45,12 +52,6 @@ class MainActivity : AppCompatActivity(), ISneakerLoadListener,ICartLoadListener
         loadSneakerFromFirebase()
         countCartFromFirebase()
 
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
-    public fun onUpdateCartEvent(event:UpdateCartEvent)
-    {
-        countCartFromFirebase()
     }
 
     private fun countCartFromFirebase() {
@@ -90,7 +91,7 @@ class MainActivity : AppCompatActivity(), ISneakerLoadListener,ICartLoadListener
                         }
                         sneakerLoadListener.onSneakerLoadSucces(sneakerModels)
                     } else {
-                        sneakerLoadListener.onSneakerLoadFailed("Sneaker items don't exists")
+                        sneakerLoadListener.onSneakerLoadFailed("No hay sneakers")
                     }
                 }
 
@@ -108,6 +109,10 @@ class MainActivity : AppCompatActivity(), ISneakerLoadListener,ICartLoadListener
         val gridLayoutManager =  GridLayoutManager(this,2)
         recycler_sneaker.layoutManager = gridLayoutManager
         recycler_sneaker.addItemDecoration( SpaceItemDecoration() )
+
+        btnCart.setOnClickListener{startActivity(Intent(this,CartActivity::class.java))}
+
+
     }
 
     override fun onSneakerLoadSucces(sneakerModeList: List<SneakerModel>?) {
