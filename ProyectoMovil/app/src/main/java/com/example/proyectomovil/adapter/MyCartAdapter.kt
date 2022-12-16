@@ -29,6 +29,7 @@ class MyCartAdapter(
         var btnDelete:ImageView?=null
         var txtName:TextView? = null
         var txtPrice:TextView? = null
+        var txtPrice2: TextView? = null
         var txtQuantity:TextView? = null
 
         init {
@@ -38,6 +39,7 @@ class MyCartAdapter(
             btnDelete = itemView.findViewById(R.id.btnDelete) as ImageView
             txtName = itemView.findViewById(R.id.txtName) as TextView
             txtPrice = itemView.findViewById(R.id.txtPrice) as TextView
+            txtPrice2 = itemView.findViewById(R.id.txtPrice2) as TextView
             txtQuantity = itemView.findViewById(R.id.txtQuantity) as TextView
         }
 
@@ -54,7 +56,8 @@ class MyCartAdapter(
             .load(cartModelList[position].image)
             .into(holder.imageView!!)
         holder.txtName!!.text = StringBuilder().append(cartModelList[position].name)
-        holder.txtPrice!!.text = StringBuilder("$").append(cartModelList[position].price)
+        holder.txtPrice!!.text = StringBuilder("$").append(cartModelList[position].totalPrice)
+        holder.txtPrice2!!.text = StringBuilder().append(cartModelList[position].price)
         holder.txtQuantity!!.text = StringBuilder("$").append(cartModelList[position].quantity)
 
         //Evento
@@ -85,6 +88,7 @@ class MyCartAdapter(
         cartModel.quantity +=1
         cartModel.totalPrice = cartModel.quantity*cartModel.price!!.toFloat()
         holder.txtQuantity!!.text = StringBuilder("").append(cartModel.quantity)
+        holder.txtPrice!!.text = StringBuilder("").append(cartModel.totalPrice)
         updateFirebase(cartModel)
     }
 

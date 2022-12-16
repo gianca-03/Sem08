@@ -96,7 +96,7 @@ class MySneakerAdapter(
                             .updateChildren(updateData)
                             .addOnSuccessListener {
                                 EventBus.getDefault().postSticky(UpdateCartEvent())
-                                cartListener.onLoadCartFailed("Cart updated")
+                                cartListener.onLoadCartFailed("Carrito actualizado")
                             }
                         .addOnFailureListener{e -> cartListener.onLoadCartFailed(e.message)}
                     } else {  // si no esta, agrega
@@ -111,7 +111,7 @@ class MySneakerAdapter(
                             .setValue(sneakerModel)
                             .addOnSuccessListener {
                                 EventBus.getDefault().postSticky(UpdateCartEvent())
-                                cartListener.onLoadCartFailed("Successfully added to the cart")
+                                cartListener.onLoadCartFailed("New item agregado")
                             }
                             .addOnFailureListener{e -> cartListener.onLoadCartFailed(e.message)}
 
